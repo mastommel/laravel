@@ -7,7 +7,7 @@ pipeline {
     stage('Prepare') {
       steps {
         sh 'mkdir -p build/{coverage,html,logs,pdepend,phpdox}'
-        sh 'composer install'
+        sh 'composer install --no-ansi --no-interaction --prefer-dist --optimize-autoloader'
       }
     }
     stage('php-lint') {
