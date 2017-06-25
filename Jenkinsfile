@@ -34,37 +34,46 @@ pipeline {
 
     stage('Continuous Integration') {
       steps {
-        parallel 'php-lint' : {
+        parallel 'phplint' : {
             sh 'vendor/bin/parallel-lint --exclude vendor .'
           },
-          'php-loc' : {
+          'phploc' : {
             sh 'vendor/bin/phploc --count-tests --log-csv build/logs/phploc.csv --log-xml build/logs/phploc.xml --exclude=vendor .'
           },
-          'php-unit' : {
+          'phpunit' : {
             sh 'vendor/bin/phpunit --configuration phpunit.xml --coverage-html build/coverage --coverage-clover build/logs/clover.xml --coverage-crap4j build/logs/crap4j.xml --log-junit build/logs/junit.xml'
           },
-          'php-depend' : {
+          'phpdepend' : {
             sh 'vendor/bin/pdepend --jdepend-xml=build/logs/jdepend.xml --jdepend-chart=build/pdepend/dependencies.svg --overview-pyramid=build/pdepend/overview-pyramid.svg --ignore=vendor .'
           },
-          'php-md' : {
+          'phpmd' : {
             sh 'vendor/bin/phpmd . xml phpmd.xml --reportfile build/logs/pmd.xml || true'
           },
           'php-dox' : {
             sh 'vendor/bin/phpdox'
           },
-          'php-cs' : {
+          'phpcs' : {
             sh 'vendor/bin/phpcs --report=checkstyle --report-file=build/logs/checkstyle.xml'
           },
-          'php-cpd' : {
+          'phpcpd' : {
             sh 'vendor/bin/phpcpd --exclude vendor --log-pmd build/logs/pmd-cpd.xml .'
           }
       }
     }
 
     stage('Publishing') {
-      steps([$class: 'hudson.plugins.checkstyle.CheckStylePublisher', pattern: 'build/logs/checkstyle.xml'])
-      steps([$class: 'hudson.plugins.pmd.PmdPublisher', pattern: 'build/logs/pmd.xml'])
-      steps([$class: 'org.jenkinsci.plugins.cloverphp.CloverPHPPublisher', xmlLocation: 'build/logs/clover.xml', reportDir: 'build/coverage'])
+      steps {
+        parallel 'phpdepend' : {
+          publishHTML(
+            target: [
+              reportName: 'PDepend Reports',
+              reportDir: 'build/pdepend',
+              reportFiles: '',
+              keepAll: true
+            ]
+          )
+        }
+      }
     }
 
   }
