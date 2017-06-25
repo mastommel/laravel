@@ -72,7 +72,8 @@ pipeline {
         'phpunit' : {
           step([$class: 'XUnitPublisher', testTimeMargin: '3000', thresholdMode: 1, thresholds: [[$class: 'FailedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: ''], [$class: 'SkippedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: '']], tools: [[$class: 'JUnitType', deleteOutputFiles: true, failIfNotNew: false, pattern: 'build/logs/junit.xml', skipNoTestFiles: false, stopProcessingIfError: true]]])
           // @TODO CloverPHPPublisher does not supported currently. step([$class: 'CloverPHPPublisher', publishHtmlReport: true, reportDir: 'build/logs', xmlLocation: 'clover.xml', disableArchiving: false])
-          publishHTML(target: [reportName: 'Coverage Reports',reportDir: 'build/coverage', reportFiles: '', keepAll: true])
+          step([$class: 'org.jenkinsci.plugins.cloverphp.CloverPHPPublisher', xmlLocation: 'build/logs/clover.xml', reportDir: 'build/coverage'])
+          publishHTML(target: [reportName: 'Coverage Reports',reportDir: 'build/coverage', reportFiles: 'index.html', alwaysLinkToLastBuild: true, keepAll: true])
           echo '@TODO crap4j.xml'
         },
         'phpdepend' : {
@@ -80,16 +81,16 @@ pipeline {
           publishHTML(target: [reportName: 'PDepend Reports',reportDir: 'build/pdepend', reportFiles: '', keepAll: true])
         },
         'phpmd' : {
-          step([$class: 'PmdPublisher', canComputeNew: false, pattern: 'build/logs/pmd.xml'])
+          step([$class: 'PmdPublisher', canComputeNew: false, pattern: 'build/logs/pmd.xml', alwaysLinkToLastBuild: true, unHealthy: '', healthy: ''])
         },
         'phpdox' : {
-          publishHTML(target: [reportName: 'PHPDoc Reports',reportDir: 'build/phpdox/', reportFiles: '', keepAll: true])
+          publishHTML(target: [reportName: 'PHPDoc Reports',reportDir: 'build/phpdox', reportFiles: 'htmlpublisher-wrapper.html', keepAll: true])
         },
         'phpcs' : {
-          step([$class: 'CheckStylePublisher', pattern: 'build/logs/checkstyle.xml'])
+          step([$class: 'CheckStylePublisher', pattern: 'build/logs/checkstyle.xml', alwaysLinkToLastBuild: true])
         },
         'phpcpd' : {
-          step([$class: 'DryPublisher', canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'build/logs/pmd-cpd.xml', unHealthy: ''])
+          step([$class: 'DryPublisher', canComputeNew: false, defaultEncoding: '', pattern: 'build/logs/pmd-cpd.xml', alwaysLinkToLastBuild: true, unHealthy: '', healthy: ''])
         }
       }
     }
