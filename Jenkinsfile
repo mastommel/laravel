@@ -34,28 +34,28 @@ pipeline {
     stage('Continuous Integration') {
       steps {
         parallel {
-          "php-lint": {
+          "php-lint" : {
             sh 'vendor/bin/parallel-lint --exclude vendor .'
           },
-          "php-loc": {
+          "php-loc" : {
             sh 'vendor/bin/phploc --count-tests --log-csv build/logs/phploc.csv --log-xml build/logs/phploc.xml --exclude=vendor .'
           },
-          "php-unit": {
+          "php-unit" : {
             sh 'vendor/bin/phpunit --configuration phpunit.xml --coverage-html build/coverage --coverage-clover build/logs/clover.xml --coverage-crap4j build/logs/crap4j.xml --log-junit build/logs/junit.xml'
           },
-          "php-depend" {
+          "php-depend" : {
             sh 'vendor/bin/pdepend --jdepend-xml=build/logs/jdepend.xml --jdepend-chart=build/pdepend/dependencies.svg --overview-pyramid=build/pdepend/overview-pyramid.svg --ignore=vendor .'
           },
-          "php-md": {
+          "php-md" : {
             sh 'vendor/bin/phpmd . xml phpmd.xml --reportfile build/logs/pmd.xml || true'
           },
-          "php-dox": {
+          "php-dox" : {
             sh 'vendor/bin/phpdox'
           },
-          "php-cs": {
+          "php-cs" : {
             sh 'vendor/bin/phpcs --report=checkstyle --report-file=build/logs/checkstyle.xml'
           },
-          "php-cpd": {
+          "php-cpd" : {
             sh 'vendor/bin/phpcpd --exclude vendor --log-pmd build/logs/pmd-cpd.xml .'
           }
         }
