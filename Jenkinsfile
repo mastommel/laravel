@@ -67,6 +67,7 @@ pipeline {
           echo '@TODO phploc'
         },
         'phpunit' : {
+          step([$class: 'XUnitPublisher', testTimeMargin: '3000', thresholdMode: 1, thresholds: [[$class: 'FailedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: ''], [$class: 'SkippedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: '']], tools: [[$class: 'JUnitType', deleteOutputFiles: true, failIfNotNew: false, pattern: 'build/logs/junit.xml', skipNoTestFiles: false, stopProcessingIfError: true]]])
           publishHTML(
             target: [
               reportName: 'PHPUnit Reports',
@@ -100,10 +101,10 @@ pipeline {
           )
         },
         'phpcs' : {
-          echo '@TODO phpcs'
+          step([$class: 'CheckStylePublisher', pattern: 'build/logs/checkstyle.xml'])
         },
         'phpcpd' : {
-          echo '@TODO phpcpd'
+          step([$class: 'DryPublisher', canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'build/logs/pmd-cpd.xml', unHealthy: ''])
         }
       }
     }
