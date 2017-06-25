@@ -13,6 +13,20 @@ pipeline {
         sh 'mkdir -p build/pdepend'
         sh 'mkdir -p build/phpdox'
         sh 'composer install --no-ansi --no-interaction --prefer-dist --optimize-autoloader'
+
+        sh 'export APP_ENV=testing'
+        sh 'export CACHE_DRIVER=array'
+        sh 'export SESSION_DRIVER=array'
+        sh 'export QUEUE_DRIVER=sync'
+        sh 'export APP_DEBUG=true'
+        sh 'export APP_LOG_LEVEL=debug'
+        sh 'export DB_CONNECTION=sqlite'
+        sh 'export DB_DATABASE=build/database.sqlite'
+        sh '> ${DB_DATABASE}'
+
+        sh 'php artisan key:gen --no-ansi'
+        sh 'php artisan migrate --env=testing --no-ansi'
+        sh 'php artisan db:seed --env=testing --no-ansi'
       }
     }
     stage('php-lint') {
