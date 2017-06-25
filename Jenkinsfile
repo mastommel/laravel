@@ -67,7 +67,7 @@ pipeline {
           step([$class: 'WarningsPublisher', canComputeNew: false, canResolveRelativePaths: false, consoleParsers: [[parserName: 'PHP Runtime']], defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', messagesPattern: '', unHealthy: ''])
         },
         'phploc' : {
-          echo '@TODO phploc.xml, phploc.csv'
+          // @TODO phploc.xml, phploc.csv
         },
         'phpunit' : {
           step([$class: 'XUnitPublisher', testTimeMargin: '3000', thresholdMode: 1, thresholds: [[$class: 'FailedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: ''], [$class: 'SkippedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: '']], tools: [[$class: 'JUnitType', deleteOutputFiles: true, failIfNotNew: false, pattern: 'build/logs/junit.xml', skipNoTestFiles: false, stopProcessingIfError: true]]])
@@ -76,6 +76,7 @@ pipeline {
           echo '@TODO crap4j.xml'
         },
         'phpdepend' : {
+          // @TODO build/logs/jdepend.xml
           junit keepLongStdio: true, allowEmptyResults: true, testResults: 'build/logs/junit.xml'
           publishHTML(target: [reportName: 'PDepend Reports',reportDir: 'build/pdepend', reportFiles: '', keepAll: true])
         },
@@ -89,7 +90,7 @@ pipeline {
           step([$class: 'CheckStylePublisher', pattern: 'build/logs/checkstyle.xml', alwaysLinkToLastBuild: true])
         },
         'phpcpd' : {
-          step([$class: 'DryPublisher', canComputeNew: false, defaultEncoding: '', pattern: 'build/logs/pmd-cpd.xml', alwaysLinkToLastBuild: true, unHealthy: '', healthy: ''])
+          step([$class: 'DryPublisher', pattern: 'build/logs/pmd-cpd.xml', highThreshold: 50, normalThreshold: 25, canRunOnFailed: true, shouldDetectModules: false, unHealthy: '', healthy: '', thresholdLimit: 'low', canComputeNew: true])
         }
       }
     }
