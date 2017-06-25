@@ -22,7 +22,8 @@ pipeline {
         sh 'export APP_LOG_LEVEL=debug'
         sh 'export DB_CONNECTION=sqlite'
         sh 'export DB_DATABASE=build/database.sqlite'
-        sh '> ${DB_DATABASE}'
+        sh '> build/database.sqlite'
+        sh 'env'
 
         sh 'php artisan key:gen --no-ansi'
         sh 'php artisan migrate --env=testing --no-ansi'
