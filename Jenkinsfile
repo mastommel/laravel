@@ -31,6 +31,7 @@ pipeline {
         sh 'php artisan db:seed --env=testing --no-ansi'
       }
     }
+
     stage('Continuous Integration') {
       steps {
         parallel 'php-lint' : {
@@ -57,8 +58,14 @@ pipeline {
           'php-cpd' : {
             sh 'vendor/bin/phpcpd --exclude vendor --log-pmd build/logs/pmd-cpd.xml .'
           }
-
       }
     }
+
+    stage('Publishing') {
+      step([$class: 'hudson.plugins.checkstyle.CheckStylePublisher', pattern: 'build/logs/checkstyle.xml'])
+      step([$class: 'hudson.plugins.pmd.PmdPublisher', pattern: 'build/logs/pmd.xml'])
+      step([$class: 'org.jenkinsci.plugins.cloverphp.CloverPHPPublisher', xmlLocation: 'build/logs/clover.xml', reportDir: 'build/coverage'])
+    }
+
   }
 }
