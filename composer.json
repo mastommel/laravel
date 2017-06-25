@@ -55,7 +55,6 @@
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "@ide",
             "php artisan optimize"
         ]
     },
