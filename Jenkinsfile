@@ -3,6 +3,17 @@
 pipeline {
   agent any
 
+  environment {
+    APP_ENV = 'testing'
+    CACHE_DRIVER = 'array'
+    SESSION_DRIVER = 'array'
+    QUEUE_DRIVER = 'sync'
+    APP_DEBUG = 'true'
+    APP_LOG_LEVEL = 'debug'
+    DB_CONNECTION = 'sqlite'
+    DB_DATABASE = 'build/database.sqlite'
+  }
+  
   stages {
     stage('Prepare') {
       steps {
@@ -14,17 +25,7 @@ pipeline {
         sh 'mkdir -p build/phpdox'
         sh 'composer install --no-ansi --no-interaction --prefer-dist --optimize-autoloader'
         sh 'cp .env.example .env'
-
-        env.APP_ENV = 'testing'
-        env.CACHE_DRIVER = 'array'
-        env.SESSION_DRIVER = 'array'
-        env.QUEUE_DRIVER = 'sync'
-        env.APP_DEBUG = 'true'
-        env.APP_LOG_LEVEL = 'debug'
-        env.DB_CONNECTION = 'sqlite'
-        env.DB_DATABASE = 'build/database.sqlite'
         sh '> {$env.DB_DATABASE}'
-
         sh 'php artisan key:gen --no-ansi'
         sh 'php artisan migrate --env=testing --no-ansi'
         sh 'php artisan db:seed --env=testing --no-ansi'
