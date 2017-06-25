@@ -72,7 +72,7 @@ pipeline {
         'phpunit' : {
           step([$class: 'XUnitPublisher', testTimeMargin: '3000', thresholdMode: 1, thresholds: [[$class: 'FailedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: ''], [$class: 'SkippedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: '']], tools: [[$class: 'JUnitType', deleteOutputFiles: true, failIfNotNew: false, pattern: 'build/logs/junit.xml', skipNoTestFiles: false, stopProcessingIfError: true]]])
           // @TODO CloverPHPPublisher does not supported currently. step([$class: 'CloverPHPPublisher', publishHtmlReport: true, reportDir: 'build/logs', xmlLocation: 'clover.xml', disableArchiving: false])
-          publishHTML(target: [reportName: 'Clover Reports',reportDir: 'build/clover', reportFiles: '', keepAll: true])
+          publishHTML(target: [reportName: 'Coverage Reports',reportDir: 'build/coverage', reportFiles: '', keepAll: true])
           echo '@TODO crap4j.xml'
         },
         'phpdepend' : {
