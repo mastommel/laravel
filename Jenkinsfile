@@ -63,12 +63,12 @@ pipeline {
     }
     stage('php-cs') {
       steps {
-        sh 'vendor/bin/phpcs'
+        sh 'vendor/bin/phpcs --report=checkstyle --report-file=build/logs/checkstyle.xml'
       }
     }
     stage('php-cpd') {
       steps {
-        sh 'vendor/bin/phpcpd .'
+        sh 'vendor/bin/phpcpd --log-pmd build/logs/pmd-cpd.xml .'
       }
     }
   }
