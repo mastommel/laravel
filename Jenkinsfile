@@ -49,7 +49,7 @@ pipeline {
           'phpmd' : {
             sh 'vendor/bin/phpmd . xml phpmd.xml --reportfile build/logs/pmd.xml || true'
           },
-          'php-dox' : {
+          'phpdox' : {
             sh 'vendor/bin/phpdox'
           },
           'phpcs' : {
@@ -63,7 +63,20 @@ pipeline {
 
     stage('Publishing') {
       steps {
-        parallel 'phpdepend' : {
+        parallel 'phploc' : {
+          echo '@TODO phploc'
+        },
+        'phpunit' : {
+          publishHTML(
+            target: [
+              reportName: 'PHPUnit coverage',
+              reportDir: 'build/pdepend',
+              reportFiles: '',
+              keepAll: true
+            ]
+          )
+        },
+        'phpdepend' : {
           publishHTML(
             target: [
               reportName: 'PDepend Reports',
@@ -72,6 +85,25 @@ pipeline {
               keepAll: true
             ]
           )
+        },
+        'phpmd' : {
+          echo '@TODO phpmd'
+        },
+        'phpdox' : {
+          publishHTML(
+            target: [
+              reportName: 'PHPDoc Reports',
+              reportDir: 'build/phpdox/',
+              reportFiles: 'index.html',
+              keepAll: true
+            ]
+          )
+        },
+        'phpcs' : {
+          echo '@TODO phpcs'
+        },
+        'phpcpd' : {
+          echo '@TODO phpcpd'
         }
       }
     }
