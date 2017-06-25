@@ -6,7 +6,12 @@ pipeline {
   stages {
     stage('Prepare') {
       steps {
-        sh 'mkdir -p build/{coverage,html,logs,pdepend,phpdox}'
+        sh 'rm -rf build/'
+        sh 'mkdir -p build/coverage'
+        sh 'mkdir -p build/html'
+        sh 'mkdir -p build/logs'
+        sh 'mkdir -p build/pdepend'
+        sh 'mkdir -p build/phpdox'
         sh 'composer install --no-ansi --no-interaction --prefer-dist --optimize-autoloader'
       }
     }
