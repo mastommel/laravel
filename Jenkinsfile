@@ -69,7 +69,7 @@ pipeline {
         'phpunit' : {
           publishHTML(
             target: [
-              reportName: 'PHPUnit coverage',
+              reportName: 'PHPUnit Reports',
               reportDir: 'build/pdepend',
               reportFiles: '',
               keepAll: true
@@ -87,7 +87,7 @@ pipeline {
           )
         },
         'phpmd' : {
-          echo '@TODO phpmd'
+          step([$class: 'PmdPublisher', canComputeNew: false, pattern: 'build/logs/pmd.xml'])
         },
         'phpdox' : {
           publishHTML(
