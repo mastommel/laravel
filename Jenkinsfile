@@ -63,7 +63,10 @@ pipeline {
 
     stage('Publishing') {
       steps {
-        parallel 'phploc' : {
+        parallel 'phpruntime' : {
+          step([$class: 'WarningsPublisher', canComputeNew: false, canResolveRelativePaths: false, consoleParsers: [[parserName: 'PHP Runtime']], defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', messagesPattern: '', unHealthy: ''])
+        },
+        phploc' : {
           echo '@TODO phploc'
         },
         'phpunit' : {
