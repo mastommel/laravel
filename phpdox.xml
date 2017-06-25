@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phpdox xmlns="http://xml.phpdox.net/config">
+    <project name="sgc-fireball/laravel" source="." workdir="build/phpdox">
+        <collector publiconly="false" backend="parser">
+            <include mask="*.php" />
+            <exclude mask="**vendor**" />
+            <exclude mask="**bootstrap/cache**" />
+        </collector>
+        <generator output="build">
+            <build engine="html" enabled="true" output="html">
+                <file extension="html" />
+            </build>
+            <enrich base="build/logs">
+                <source type="phploc">
+                    <file name="phploc.xml" />
+                </source>
+            </enrich>
+        </generator>
+    </project>
+</phpdox>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="sgc-fireball/laravel">
+    <description>sgc-fireball/laravel</description>
+
+    <rule ref="PSR1">
+        <exclude name="PSR1.Classes.ClassDeclaration.MissingNamespace"/>
+    </rule>
+
+    <rule ref="PSR2">
+        <exclude name="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody"/>
+    </rule>
+
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="120"/>
+            <property name="absoluteLineLimit" value="120"/>
+        </properties>
+    </rule>
+
+    <arg value="s"/>
+    <arg name="colors"/>
+    <arg name="encoding" value="UTF-8"/>
+    <arg name="extensions" value="php"/>
+
+    <file>app/</file>
+    <file>tests/</file>
+
+</ruleset>

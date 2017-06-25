@@ -3,16 +3,19 @@
          backupStaticAttributes="false"
          bootstrap="bootstrap/autoload.php"
          colors="true"
+         strict="true"
+         stopOnFailure="false"
+         stopOnError="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false">
+         processIsolation="false">
     <testsuites>
         <testsuite name="Feature">
             <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
-
         <testsuite name="Unit">
             <directory suffix="Test.php">./tests/Unit</directory>
         </testsuite>
@@ -27,5 +30,6 @@
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
+        <env name="MAIL_DRIVER" value="log"/>
     </php>
 </phpunit>
