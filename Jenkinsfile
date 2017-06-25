@@ -67,20 +67,23 @@ pipeline {
           step([$class: 'WarningsPublisher', canComputeNew: false, canResolveRelativePaths: false, consoleParsers: [[parserName: 'PHP Runtime']], defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', messagesPattern: '', unHealthy: ''])
         },
         'phploc' : {
-          echo '@TODO phploc'
+          echo '@TODO phploc.xml, phploc.csv'
         },
         'phpunit' : {
           step([$class: 'XUnitPublisher', testTimeMargin: '3000', thresholdMode: 1, thresholds: [[$class: 'FailedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: ''], [$class: 'SkippedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: '']], tools: [[$class: 'JUnitType', deleteOutputFiles: true, failIfNotNew: false, pattern: 'build/logs/junit.xml', skipNoTestFiles: false, stopProcessingIfError: true]]])
-          publishHTML(target: [reportName: 'PHPUnit Reports',reportDir: 'build/phpunit',reportFiles: '',keepAll: true])
+          step([$class: 'CloverPublisher', cloverReportDir: 'build/logs', cloverReportFileName: 'clover.xml'])
+          publishHTML(target: [reportName: 'Clover Reports',reportDir: 'build/clover', reportFiles: '', keepAll: true])
+          echo '@TODO crap4j.xml'
         },
         'phpdepend' : {
-          publishHTML(target: [reportName: 'PDepend Reports',reportDir: 'build/pdepend',reportFiles: '',keepAll: true])
+          junit keepLongStdio: true, allowEmptyResults: true, testResults: 'build/logs/junit.xml'
+          publishHTML(target: [reportName: 'PDepend Reports',reportDir: 'build/pdepend', reportFiles: '', keepAll: true])
         },
         'phpmd' : {
           step([$class: 'PmdPublisher', canComputeNew: false, pattern: 'build/logs/pmd.xml'])
         },
         'phpdox' : {
-          publishHTML(target: [reportName: 'PHPDoc Reports',reportDir: 'build/phpdox/',reportFiles: '',keepAll: true])
+          publishHTML(target: [reportName: 'PHPDoc Reports',reportDir: 'build/phpdox/', reportFiles: '', keepAll: true])
         },
         'phpcs' : {
           step([$class: 'CheckStylePublisher', pattern: 'build/logs/checkstyle.xml'])
