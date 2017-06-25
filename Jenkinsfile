@@ -67,7 +67,7 @@ pipeline {
           step([$class: 'WarningsPublisher', canComputeNew: false, canResolveRelativePaths: false, consoleParsers: [[parserName: 'PHP Runtime']], defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', messagesPattern: '', unHealthy: ''])
         },
         'phploc' : {
-          echo '@TODO PlotPublisher does not supported currently.
+          echo '@TODO PlotPublisher does not supported currently.'
           // step([$class: 'PlotPublisher', group: 'phploc', title: 'A - Lines of code', numBuilds: 100, yaxis: 'Lines of Code', style: 'line', file: 'build/logs/phploc.csv', fileType: 'csv'])
         },
         'phpunit' : {
