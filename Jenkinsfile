@@ -53,7 +53,7 @@ pipeline {
     }
     stage('php-md') {
       steps {
-        sh 'vendor/bin/phpmd . xml phpmd.xml --reportfile build/logs/pmd.xml'
+        sh 'vendor/bin/phpmd . xml phpmd.xml --reportfile build/logs/pmd.xml || true'
       }
     }
     stage('php-dox') {
