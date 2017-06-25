@@ -71,7 +71,6 @@ pipeline {
         },
         'phpunit' : {
           step([$class: 'XUnitPublisher', testTimeMargin: '3000', thresholdMode: 1, thresholds: [[$class: 'FailedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: ''], [$class: 'SkippedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: '']], tools: [[$class: 'JUnitType', deleteOutputFiles: true, failIfNotNew: false, pattern: 'build/logs/junit.xml', skipNoTestFiles: false, stopProcessingIfError: true]]])
-#@TODO          step([$class: 'CloverPublisher', cloverReportDir: 'build/logs', cloverReportFileName: 'clover.xml', healthyTarget: [methodCoverage: 70, conditionalCoverage: 80, statementCoverage: 80],unhealthyTarget: [methodCoverage: 50, conditionalCoverage: 60, statementCoverage: 60],failingTarget: [methodCoverage: 30, conditionalCoverage: 40, statementCoverage: 40]])
           publishHTML(target: [reportName: 'PHPUnit Reports',reportDir: 'build/phpunit',reportFiles: '',keepAll: true])
         },
         'phpdepend' : {
