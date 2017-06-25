@@ -68,7 +68,7 @@ pipeline {
     }
     stage('php-cpd') {
       steps {
-        sh 'vendor/bin/phpcpd --log-pmd build/logs/pmd-cpd.xml .'
+        sh 'vendor/bin/phpcpd --exclude vendor --log-pmd build/logs/pmd-cpd.xml .'
       }
     }
   }
