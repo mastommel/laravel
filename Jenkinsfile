@@ -23,7 +23,7 @@ pipeline {
         sh 'mkdir -p build/logs'
         sh 'mkdir -p build/pdepend'
         sh 'mkdir -p build/phpdox'
-        sh 'touch {$DB_DATABASE}'
+        sh 'touch ${DB_DATABASE}'
         sh 'composer install --no-ansi --no-interaction --prefer-dist --optimize-autoloader'
         sh 'cp .env.example .env'
         sh 'php artisan key:gen --no-ansi'
