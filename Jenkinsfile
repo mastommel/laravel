@@ -67,17 +67,21 @@ pipeline {
           step([$class: 'WarningsPublisher', canComputeNew: false, canResolveRelativePaths: false, consoleParsers: [[parserName: 'PHP Runtime']], defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', messagesPattern: '', unHealthy: ''])
         },
         'phploc' : {
-          echo '@TODO phploc.xml, phploc.csv'
-          step([$class: 'PlotPublisher', group: 'phploc', title: 'A - Lines of code', numBuilds: 100, yaxis: 'Lines of Code', style: 'line', file: 'build/logs/phploc.csv', fileType: 'csv'])
+          echo '@TODO PlotPublisher does not supported currently.
+          // step([$class: 'PlotPublisher', group: 'phploc', title: 'A - Lines of code', numBuilds: 100, yaxis: 'Lines of Code', style: 'line', file: 'build/logs/phploc.csv', fileType: 'csv'])
         },
         'phpunit' : {
+          // @TODO CloverPHPPublisher does not supported currently.
+          // step([$class: 'CloverPHPPublisher', publishHtmlReport: true, reportDir: 'build/logs', xmlLocation: 'clover.xml', disableArchiving: false])
+          // @TODO crap4j.xml'
+
           step([$class: 'XUnitPublisher', testTimeMargin: '3000', thresholdMode: 1, thresholds: [[$class: 'FailedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: ''], [$class: 'SkippedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: '']], tools: [[$class: 'JUnitType', deleteOutputFiles: true, failIfNotNew: false, pattern: 'build/logs/junit.xml', skipNoTestFiles: false, stopProcessingIfError: true]]])
-          // @TODO CloverPHPPublisher does not supported currently. step([$class: 'CloverPHPPublisher', publishHtmlReport: true, reportDir: 'build/logs', xmlLocation: 'clover.xml', disableArchiving: false])
           publishHTML(target: [reportName: 'Coverage Reports',reportDir: 'build/coverage', reportFiles: 'index.html', alwaysLinkToLastBuild: true, keepAll: true])
-          echo '@TODO crap4j.xml'
         },
         'phpdepend' : {
           // @TODO build/logs/jdepend.xml
+          step([$class: 'JDependRecorder', configuredJDependFile: 'build/logs/jdepend.xml'])
+
           junit keepLongStdio: true, allowEmptyResults: true, testResults: 'build/logs/junit.xml'
           publishHTML(target: [reportName: 'PDepend Reports',reportDir: 'build/pdepend', reportFiles: '', keepAll: true])
         },
