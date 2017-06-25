@@ -73,9 +73,8 @@ pipeline {
         'phpunit' : {
           echo '@TODO CloverPHPPublisher does not supported currently.'
           // @TODO step([$class: 'CloverPHPPublisher', publishHtmlReport: true, reportDir: 'build/logs', xmlLocation: 'clover.xml', disableArchiving: false])
-
           echo '@TODO Crap4JPublisher does not supported currently.'
-          step([$class: 'Crap4JPublisher', reportPattern: 'build/logs/crap4j.xml', healthThreshold: ''])
+          // @TODO step([$class: 'Crap4JPublisher', reportPattern: 'build/logs/crap4j.xml', healthThreshold: ''])
 
           step([$class: 'XUnitPublisher', testTimeMargin: '3000', thresholdMode: 1, thresholds: [[$class: 'FailedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: ''], [$class: 'SkippedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: '']], tools: [[$class: 'JUnitType', deleteOutputFiles: true, failIfNotNew: false, pattern: 'build/logs/junit.xml', skipNoTestFiles: false, stopProcessingIfError: true]]])
           publishHTML(target: [reportName: 'Coverage Reports',reportDir: 'build/coverage', reportFiles: 'index.html', alwaysLinkToLastBuild: true, keepAll: true])
