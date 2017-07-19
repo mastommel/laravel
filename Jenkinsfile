@@ -2,7 +2,7 @@
 
 pipeline {
   agent {
-    label: 'RichardLaptopWindows10'
+    label 'RichardLaptopWindows10'
   }
 
   environment {
