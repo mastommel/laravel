@@ -1,7 +1,9 @@
 #!groovy
 
 pipeline {
-  agent any
+  agent {
+    label: 'RichardLaptopWindows10'
+  }
 
   environment {
     APP_ENV = 'testing'
