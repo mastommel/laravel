@@ -51,9 +51,9 @@ pipeline {
           'phpmd' : {
             sh 'vendor/bin/phpmd . xml phpmd.xml --reportfile build/logs/pmd.xml || true'
           },
-          'phpdox' : {
-            sh 'vendor/bin/phpdox'
-          },
+//          'phpdox' : {
+//            sh 'vendor/bin/phpdox'
+//          },
           'phpcs' : {
             sh 'vendor/bin/phpcs --report=checkstyle --report-file=build/logs/checkstyle.xml'
           },
@@ -91,9 +91,9 @@ pipeline {
         'phpmd' : {
           step([$class: 'PmdPublisher', canComputeNew: false, pattern: 'build/logs/pmd.xml', alwaysLinkToLastBuild: true, unHealthy: '', healthy: ''])
         },
-        'phpdox' : {
-          publishHTML(target: [reportName: 'PHPDoc Reports',reportDir: 'build/phpdox', reportFiles: 'htmlpublisher-wrapper.html', keepAll: true])
-        },
+//        'phpdox' : {
+//          publishHTML(target: [reportName: 'PHPDoc Reports',reportDir: 'build/phpdox', reportFiles: 'htmlpublisher-wrapper.html', keepAll: true])
+//        },
         'phpcs' : {
           step([$class: 'CheckStylePublisher', pattern: 'build/logs/checkstyle.xml', alwaysLinkToLastBuild: true])
         },
