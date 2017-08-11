@@ -20,7 +20,7 @@
         "phpunit/php-code-coverage": "@stable",
         "sebastian/phpcpd": "@stable",
         "squizlabs/php_codesniffer": "@stable",
-        "theseer/phpdox": "^0.8",
+        "theseer/phpdox": "^0.10",
         "barryvdh/laravel-debugbar": "^2.3",
         "jakub-onderka/php-parallel-lint": "~0.9"
     },
