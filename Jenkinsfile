@@ -15,6 +15,10 @@ pipeline {
   }
   
   stages {
+    stage('SCM') {
+      checkout scm
+    }
+
     stage('Build Environment') {
       steps {
         sh 'rm -rf build/'
@@ -61,7 +65,7 @@ pipeline {
       }
     }
 
-    stage('Publishing') {
+    stage('Publishing Results') {
       steps {
         parallel 'phpruntime' : {
           step([$class: 'WarningsPublisher', canComputeNew: false, canResolveRelativePaths: false, consoleParsers: [[parserName: 'PHP Runtime']], defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', messagesPattern: '', unHealthy: ''])
@@ -98,6 +102,12 @@ pipeline {
         'phpcpd' : {
           step([$class: 'DryPublisher', pattern: 'build/logs/pmd-cpd.xml', highThreshold: 50, normalThreshold: 25, canRunOnFailed: true, shouldDetectModules: false, unHealthy: '', healthy: '', thresholdLimit: 'low', canComputeNew: true])
         }
+      }
+    }
+
+    stage('Deployment') {
+      steps {
+        echo '@TODO Deploy to live server'
       }
     }
 
