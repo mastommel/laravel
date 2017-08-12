@@ -16,7 +16,9 @@ pipeline {
   
   stages {
     stage('SCM') {
-      checkout scm
+      steps {
+        checkout scm
+      }
     }
 
     stage('Build Environment') {
