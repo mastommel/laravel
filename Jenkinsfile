@@ -92,7 +92,7 @@ pipeline {
     stage('Deployment') {
       steps {
         sh "rm -rf .npm/ .cache/ .composer/ .git/ .git* .vs/ .idea/ .env node_modules/ *.md *.xml Jenkinsfile Dockerfile"
-        archiveArtifacts([artifacts: './*'])
+        archiveArtifacts([artifacts: '*'])
         echo '@TODO Deploy to live server'
       }
     }
