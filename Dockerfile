@@ -2,6 +2,7 @@ FROM php:7.1
 MAINTAINER Richard Huelsberg <rh+github@hrdns.de>
 
 ENV HOME=/home/jenkins
+RUN mkdir /home/jenkins
 RUN groupadd -g 1002 jenkins
 RUN useradd -u 1002 -g jenkins -s /bin/bash jenkins
 RUN chown jenkins:jenkins -R /home/jenkins
