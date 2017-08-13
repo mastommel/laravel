@@ -37,6 +37,7 @@ pipeline {
       steps {
         parallel 'phplint' : {
             sh 'vendor/bin/parallel-lint --exclude vendor .'
+            step([$class: 'WarningsPublisher', canComputeNew: false, canResolveRelativePaths: false, consoleParsers: [[parserName: 'PHP Runtime']], defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', messagesPattern: '', unHealthy: ''])
           },
           'phploc' : {
             sh 'vendor/bin/phploc --count-tests --log-csv build/logs/phploc.csv --log-xml build/logs/phploc.xml --exclude=vendor .'
@@ -74,9 +75,6 @@ pipeline {
           'phpcpd' : {
             sh 'vendor/bin/phpcpd --exclude vendor --log-pmd build/logs/pmd-cpd.xml .'
             step([$class: 'DryPublisher', pattern: 'build/logs/pmd-cpd.xml', highThreshold: 50, normalThreshold: 25, canRunOnFailed: true, shouldDetectModules: false, unHealthy: '', healthy: '', thresholdLimit: 'low', canComputeNew: true])
-          },
-          'phpruntime' : {
-            step([$class: 'WarningsPublisher', canComputeNew: false, canResolveRelativePaths: false, consoleParsers: [[parserName: 'PHP Runtime']], defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', messagesPattern: '', unHealthy: ''])
           }
         }
       }
