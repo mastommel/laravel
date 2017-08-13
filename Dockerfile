@@ -1,9 +1,10 @@
 FROM php:7.1
 MAINTAINER Richard Huelsberg <rh+github@hrdns.de>
 
-
-ENV HOME=/tmp
-RUN chmod -R 777 /tmp
+ENV HOME=/home/jenkins
+RUN groupadd -g 1002 jenkins
+RUN useradd -u 1002 -g jenkins -s /bin/bash jenkins
+RUN chown jenkins:jenkins -R /home/jenkins
 
 RUN apt-get update \
   && apt-get install -y libcurl4-openssl-dev sudo git libxslt-dev mercurial subversion zlib1g-dev graphviz zip libmcrypt-dev libicu-dev g++ libpcre3-dev libgd-dev libfreetype6-dev \
@@ -32,3 +33,5 @@ RUN npm -g install yarn
 RUN php --version
 RUN node --version
 RUN yarn --version
+
+USER jenkins
