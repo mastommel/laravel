@@ -25,10 +25,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash && apt-get install -y nodejs && apt-get clean
 RUN npm -g install yarn
 
-RUN php --version
-RUN node --version
-RUN yarn --version
-
 ENV HOME=/home/jenkins
 RUN mkdir /home/jenkins
 RUN groupadd -g 1002 jenkins
