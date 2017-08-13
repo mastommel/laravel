@@ -6,11 +6,10 @@ pipeline {
   }
 
   options {
-    buildDiscarder(logRotator(numToKeepStr:'3'))
+    buildDiscarder(logRotator(numToKeepStr:'5'))
   }
 
   environment {
-    ENVIROMENT = 'feature'
     APP_ENV = 'testing'
     CACHE_DRIVER = 'array'
     SESSION_DRIVER = 'array'
@@ -25,22 +24,14 @@ pipeline {
     stage('SCM') {
       steps {
         checkout scm
-        switch(env.BRANCH_NAME) {
-          case 'master': env.ENVIROMENT = 'live'; break;
-          case 'stage': env.ENVIROMENT = 'test'; break;
-          case 'develop': env.ENVIROMENT = 'dev'; break;
-          default: env.ENVIROMENT = 'feature'; break;
-        }
       }
     }
 
     stage('Build Environment') {
       steps {
         parallel 'build.properties' : {
-            sh 'echo ENVIROMENT=${env.ENVIROMENT} > build.properties'
             sh 'echo DATE=$(date "+%Y%m%d") >> build.properties'
             sh 'echo GIT_COMMIT=$(git rev-parse HEAD | cut -b 1-6) >> build.properties'
-            sh 'echo GIT_BRANCH=${env.GIT_BRANCH} >> build.properties'
             sh "echo BUILD_NUMBER=${env.BUILD_NUMBER} >> build.properties"
         },
         'CI Environment' : {
