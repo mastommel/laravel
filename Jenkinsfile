@@ -91,8 +91,9 @@ pipeline {
 
     stage('Deployment') {
       steps {
-        sh "tar -czf build.tar.gz ."
+        sh "tar -czf build.tar.gz --exclude=build.tar.gz --exclude=.git --exclude=node_modules --exclude=.env --exclude=*.md --exclude=*.lock --exclude=*.json --exclude=*.xml --exclude=*file ."
         archiveArtifacts([artifacts: 'build.tar.gz'])
+        stash([name: "build", includes: "build.tar.gz"])
         echo '@TODO Deploy to live server'
       }
     }
