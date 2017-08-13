@@ -18,18 +18,26 @@ pipeline {
 
     stage('Build Environment') {
       steps {
-        sh 'rm -rf build/'
-        sh 'mkdir -p build/coverage'
-        sh 'mkdir -p build/html'
-        sh 'mkdir -p build/logs'
-        sh 'mkdir -p build/pdepend'
-        sh 'mkdir -p build/phpdox'
-        sh 'touch ${DB_DATABASE}'
-        sh 'composer install --no-ansi --no-interaction --prefer-dist --optimize-autoloader'
-        sh 'cp .env.example .env'
-        sh 'php artisan key:gen --no-ansi'
-        sh 'php artisan migrate --env=testing --no-ansi'
-        sh 'php artisan db:seed --env=testing --no-ansi'
+        parallel 'CI Environment' : {
+            sh 'rm -rf build/'
+            sh 'mkdir -p build/coverage'
+            sh 'mkdir -p build/html'
+            sh 'mkdir -p build/logs'
+            sh 'mkdir -p build/pdepend'
+            sh 'mkdir -p build/phpdox'
+            sh 'touch ${DB_DATABASE}'
+          },
+          'PHP Environment' : {
+            sh 'composer install --no-ansi --no-interaction --prefer-dist --optimize-autoloader'
+            sh 'cp .env.example .env'
+            sh 'php artisan key:gen --no-ansi'
+            sh 'php artisan migrate --env=testing --no-ansi'
+            sh 'php artisan db:seed --env=testing --no-ansi'
+          },
+          'Node Environment' : {
+            sh 'yarn install'
+            sh 'npm run prod'
+          }
       }
     }
 
