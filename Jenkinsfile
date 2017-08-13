@@ -5,6 +5,10 @@ pipeline {
     dockerfile true
   }
 
+  options {
+    buildDiscarder(logRotator(numToKeepStr:'3'))
+  }
+
   environment {
     APP_ENV = 'testing'
     CACHE_DRIVER = 'array'
@@ -17,10 +21,21 @@ pipeline {
   }
   
   stages {
+    stage('SCM') {
+      steps {
+        checkout scm
+      }
+    }
 
     stage('Build Environment') {
       steps {
-        parallel 'CI Environment' : {
+        parallel 'build.properties' : {
+            sh 'echo DATE=$(date +YmdHis) > build.properties'
+            sh 'echo GIT_COMMIT=$(git rev-parse HEAD | cut -b 1-6) >> build.properties'
+            sh 'echo GIT_BRANCH= >> build.properties'
+            sh "echo BUILD_NUMBER=${env.BUILD_NUMBER} >> build.properties"
+        },
+        'CI Environment' : {
             sh 'rm -rf build/'
             sh 'mkdir -p build/coverage'
             sh 'mkdir -p build/html'
