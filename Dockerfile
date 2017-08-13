@@ -1,6 +1,8 @@
 FROM php:7.1
 MAINTAINER Richard Huelsberg <rh+github@hrdns.de>
 
+ENV HOME /root
+
 RUN apt-get update \
   && apt-get install -y libcurl4-openssl-dev sudo git libxslt-dev mercurial subversion zlib1g-dev graphviz zip libmcrypt-dev libicu-dev g++ libpcre3-dev libgd-dev libfreetype6-dev \
   && apt-get clean \
