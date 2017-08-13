@@ -29,7 +29,7 @@ pipeline {
           case 'master': env.ENVIROMENT = 'live'; break;
           case 'stage': env.ENVIROMENT = 'test'; break;
           case 'develop': env.ENVIROMENT = 'dev'; break;
-          default: : env.ENVIROMENT = 'feature'; break;
+          default: env.ENVIROMENT = 'feature'; break;
         }
       }
     }
