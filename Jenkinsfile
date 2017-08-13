@@ -1,7 +1,9 @@
 #!groovy
 
 pipeline {
-  agent any
+  agent {
+    dockerfile true
+  }
 
   environment {
     APP_ENV = 'testing'
