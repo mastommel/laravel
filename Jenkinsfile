@@ -17,7 +17,7 @@ pipeline {
     APP_DEBUG = 'true'
     APP_LOG_LEVEL = 'debug'
     DB_CONNECTION = 'sqlite'
-    DB_DATABASE = 'build/database.sqlite'
+    DB_DATABASE = "${env.WORKSPACE + '/build/database.sqlite'}"
   }
   
   stages {
